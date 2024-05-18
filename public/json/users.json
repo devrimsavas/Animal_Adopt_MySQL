@@ -1,0 +1,17 @@
+{
+    "Users": [
+        {
+            "id":1,
+            "query":"INSERT INTO users (fullName,username,password,role) VALUES ('SystemAdmin','Admin','admin12345','admin')"
+        },
+        {
+            "id":2,
+            "query":"INSERT INTO users (fullName,username,password,role) VALUES ('User','User','user12345','member')"
+        },
+        {
+            "id":3,
+            "query":"INSERT INTO users (fullName,username,password,role) VALUES ('User2','User2','User12345','member')"
+        }
+
+    ]
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> DAB - Adopt Animal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheets/styles.css">
+
+
+   <!--sweetalert-->
+   <!--normally i like to install it as npm but i don't have time-->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="../js/common.js"></script>
+  <!--script below for sql queries-->
+  
+  <script src="../js/dbQueries.js"></script>
+ 
+  
+
+</head>
+
+<body>
+  <%- include('./partials/navbar.ejs', {user: user}) %>
+    <div class="container-fluid mt-5">
+      <h2 class="p-3 text-center">Animals for Adoption</h2>
+      <div class="list-group">
+          <div class="row px-3 py-1 w-100 text-center">
+          <span class="col py-1 bg-light ">
+            <form action="/animals/popular-animals" method="get">
+              <button class="btn-sm btn-success" onclick="sqlQuery1()">Popular Animal Names</button>
+            </form>
+          </span>
+          <span class="col py-1 bg-light ">
+            <form action="/animals/adopted" method="get">
+            <button class="btn-sm btn-success" onclick="sqlQuery2()">All Adoption Details</button>
+            </form>
+          </span>
+          <span class="col py-1 bg-light ">
+            <!--i use form action for the button instead of ajax client side -->
+            <form action="/animals/sorted-by-age" method="get">
+              <button class="btn-sm btn-success" onclick="sqlQuery3()">Animals By Age</button>
+            </form>
+          </span>
+          <span class="col py-1 bg-light ">
+            <button class="btn-sm btn-success" type="button" onclick="sqlQuery4()">Animals Born In Date Range</button>
+          </span>
+          <span class="col py-1 bg-light ">
+            <!--prefered form action-->
+            <form action="/animals/animals-per-size" method="get">
+              <button class="btn-sm btn-success" >Number of Animals Per Size</button>
+            </form>
+          </span>
+          <span class="col py-1 bg-light ">
+            <form action="/animals/all-animals" method="get">
+            <button class="btn-sm btn-warning" onclick="allAnimals()">All Animals</button>
+            </form>
+          </span>
+        </div>
+        <div class="row px-3 py-1 w-100">
+          <span class="col py-1 bg-noroff">Id</span>
+          <span class="col py-1 bg-noroff">Name</span>
+          <span class="col py-1 bg-noroff">Species</span>
+          <span class="col py-1 bg-noroff">Birthday</span>
+          <span class="col py-1 bg-noroff">Temperament</span>
+          <span class="col py-1 bg-noroff">Size</span>
+          <span class="col py-1 bg-noroff">Age</span>
+          <span class="col py-1 bg-noroff">Adopted</span>
+          <span class="col py-1 bg-noroff">Options</span>
+        </div>
+        <% animals.forEach(function(animal) { %>
+          <!--added a css class to change the color if the animal is adopted-->
+          <div class="row px-3 py-1 w-100 <%= animal.adopted ? 'bg-adopted' : 'bg-available' %>">
+            <span class="col py-1 bg-light ">
+              <%=animal.id%>
+            </span>
+            <span class="col py-1 bg-light">
+              <%=animal.name%>
+            </span>
+            <span class="col py-1 bg-light">
+              <%=animal.species ? animal.species.name : 'No Species'%>
+            </span>
+            <span class="col py-1 bg-light">
+              <%=animal.birthday%>
+            </span>
+            <span class="col py-1 bg-light">
+              <%=animal.temperament%>
+            </span>
+            <span class="col py-1 bg-light">
+              <%=animal.size%>
+            </span>
+            <span class="col py-1 bg-light">
+              
+              <%=animal.age %> 
+            </span>
+            <span class="col py-1 bg-light">
+              <%= animal.adopted ? 'Adopted' : 'Available' %>
+            </span>
+            <span class="col py-1 bg-light text-center">
+              <span class="col py-1 bg-light text-center">
+                <% if(user) { %>
+                  <button class="btn-sm btn-warning" onclick="adoptAnimal(<%= animal.id %>)">Adopt</button>
+                <% } else { %>
+                  <button class="btn-sm btn-warning" disabled>Adopt</button>
+                <% } %>
+                <button class="btn-sm btn-danger" onclick="deleteAnimal(<%= animal.id %>)">Cancel Adoption</button>
+              </span>
+            </div>
+          <% }); %>
+            <hr>
+
+      </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+.bg-noroff {
+  background: #ff7878;
+  color: white;
+}
+
+.bg-adopted {
+  background-color: #747541;
+}
+
+.bg-available {
+  background-color:#d4edda;
+  box-shadow: 0 0 0 2px #d4edda;
+}
+
+

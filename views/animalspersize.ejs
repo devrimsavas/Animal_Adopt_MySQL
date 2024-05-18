@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DAB - Adopt Animal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheets/styles.css">
+  <script src="../js/common.js"></script>
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <%- include('./partials/navbar.ejs', { user: user }) %>
+  <div class="container-fluid mt-5">
+    <h2 class="p-3 text-center">Number of Animals Per Size</h2>
+    <div class="list-group">
+      <!-- Button actions -->
+      <div class="row px-3 py-1 w-100 text-center">
+        <!-- Other buttons for actions -->
+        <span class="col py-1 bg-light">
+          <form action="/animals/animals-per-size" method="get">
+            <button type="submit" class="btn-sm btn-success">Number of Animals Per Size</button>
+          </form>
+        </span>
+      </div>
+
+      <!-- Sizes Data Display -->
+      <div class="row px-3 py-1 w-100">
+        <span class="col py-1 bg-noroff">Size</span>
+        <span class="col py-1 bg-noroff">Number of Animals</span>
+      </div>
+      <% sizes.forEach(function(size) { %>
+      <div class="row px-3 py-1 w-100">
+        <span class="col py-1 bg-light"><%= size.size %></span>
+        <span class="col py-1 bg-light"><%= size.count %></span>
+      </div>
+      <% }); %>
+      <hr>
+
+      <!-- Chart Container -->
+      <div class="text-center" style="width:200px; height:200px;">
+        <canvas id="sizeChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sizes = <%- JSON.stringify(sizes) %>;
+      const ctx = document.getElementById('sizeChart').getContext('2d');
+      const sizeLabels = sizes.map(size => size.size);
+      const sizeCounts = sizes.map(size => size.count);
+
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: sizeLabels,
+          datasets: [{
+            label: 'Number of Animals by Size',
+            data: sizeCounts,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+    
+
+
